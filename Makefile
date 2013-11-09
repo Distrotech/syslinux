@@ -84,7 +84,7 @@ endif
 # creating. Which means that we always need a *real* target, such as
 # 'all', appended to the make goals.
 #
-firmware = bios efi32 efi64
+firmware = bios #efi32 efi64
 real-target := $(filter-out $(firmware), $(MAKECMDGOALS))
 real-firmware := $(filter $(firmware), $(MAKECMDGOALS))
 
@@ -222,12 +222,12 @@ endif # ifdef EFI_BUILD
 
 ifeq ($(HAVE_FIRMWARE),)
 
-firmware = bios efi32 efi64
+firmware = bios #efi32 efi64
 
 # If no firmware was specified the rest of MAKECMDGOALS applies to all
 # firmware.
 ifeq ($(filter $(firmware),$(MAKECMDGOALS)),)
-all strip tidy clean dist spotless install installer netinstall: bios efi32 efi64
+all strip tidy clean dist spotless install installer netinstall: bios #efi32 efi64
 
 else
 

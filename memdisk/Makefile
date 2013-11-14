@@ -78,14 +78,14 @@ memdisk16.o: memdisk16.asm
 	$(NASM) -f bin $(NASMOPT) $(NFLAGS) $(NINCLUDE) -o $@ -l $*.lst $<
 
 memdisk_%.o: memdisk_%.bin
-	$(LD) -r -b binary -o $@ $<
+	$(LD) -m elf_i386 -r -b binary -o $@ $<
 
 memdisk16.elf: $(OBJS16)
 	$(LD) -Ttext 0 -o $@ $^
 
 #memdisk32.elf: memdisk.ld $(OBJS32)
 memdisk32.elf: $(ARCH)/memdisk.ld $(OBJS32)
-	$(LD) -o $@ -T $^
+	$(LD) -m elf_i386 -o $@ -T $^
 
 %.bin: %.elf
 	$(OBJCOPY) -O binary $< $@

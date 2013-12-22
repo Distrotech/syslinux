@@ -16,8 +16,10 @@
 
 include $(MAKEDIR)/syslinux.mk
 
+HOST_CC = gcc
+
 OPTFLAGS = -g -Os
-INCLUDES = -I$(SRC) -I$(objdir) -I$(SRC)/../libinstaller
+INCLUDES = -I$(SRC) -I$(objdir) -I$(SRC)/../libinstaller -I=/include
 CFLAGS	 = $(GCCWARN) -Wno-sign-compare -D_FILE_OFFSET_BITS=64 \
 	   $(OPTFLAGS) $(INCLUDES)
 LDFLAGS	 = 
@@ -52,16 +54,16 @@ spotless: clean
 installer: extlinux
 
 extlinux: $(OBJS)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(HOST_CC) $(LDFLAGS) -o $@ $^
 
 strip:
 	$(STRIP) extlinux
 
 %.o: %.c
-	$(CC) $(UMAKEDEPS) $(CFLAGS) -c -o $@ $<
+	$(HOST_CC) $(UMAKEDEPS) $(CFLAGS) -c -o $@ $<
 %.i: %.c
-	$(CC) $(UMAKEDEPS) $(CFLAGS) -E -o $@ $<
+	$(HOST_CC) $(UMAKEDEPS) $(CFLAGS) -E -o $@ $<
 %.s: %.c
-	$(CC) $(UMAKEDEPS) $(CFLAGS) -S -o $@ $<
+	$(HOST_CC) $(UMAKEDEPS) $(CFLAGS) -S -o $@ $<
 
 -include .*.d *.tmp

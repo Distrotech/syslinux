@@ -16,6 +16,8 @@
 
 include $(MAKEDIR)/syslinux.mk
 
+HOST_CC = gcc
+
 OPTFLAGS = -g -Os
 INCLUDES = -I$(SRC) -I$(objdir) -I$(SRC)/../libinstaller
 CFLAGS	 = $(GCCWARN) -D_FILE_OFFSET_BITS=64 $(OPTFLAGS) $(INCLUDES)
@@ -51,7 +53,7 @@ spotless: clean
 installer: syslinux syslinux-nomtools
 
 syslinux: $(OBJS)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(HOST_CC) $(LDFLAGS) -o $@ $^
 
 syslinux-nomtools: syslinux
 	ln -f $< $@
@@ -60,10 +62,10 @@ strip:
 	$(STRIP) syslinux syslinux-nomtools
 
 %.o: %.c
-	$(CC) $(UMAKEDEPS) $(CFLAGS) -c -o $@ $<
+	$(HOST_CC) $(UMAKEDEPS) $(CFLAGS) -c -o $@ $<
 %.i: %.c
-	$(CC) $(UMAKEDEPS) $(CFLAGS) -E -o $@ $<
+	$(HOST_CC) $(UMAKEDEPS) $(CFLAGS) -E -o $@ $<
 %.s: %.c
-	$(CC) $(UMAKEDEPS) $(CFLAGS) -S -o $@ $<
+	$(HOST_CC) $(UMAKEDEPS) $(CFLAGS) -S -o $@ $<
 
 -include .*.d
